@@ -5,13 +5,14 @@ medir el angulo de los brazos de un robot, por
 Sandra Cecilia Urbina Coronado 
 http://cecilia-urbina.blogspot.com
 
-Instalacion
+Instalación
 ===========
-En el archivo install se encuentran las especificaciones
+En el archivo INSTALL se encuentran las especificaciones
 
 Ejecución
 =========
 python principal.py
+
 
 Uso
 ===
@@ -26,4 +27,4 @@ Más información
 
 Programa implementado parala materia de visión computacional 
 de la Doctora Elisa Schaeffer
->>>>>>> ff1bb816a3e181c8685ec772dd032d908b699015
+http://elisa.dyndns-web.com/~elisa/teaching/comp/vision/2013.html
