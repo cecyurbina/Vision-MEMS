@@ -13,27 +13,34 @@ import matplotlib.pyplot as plt
 
 
 def calcula_distancia(pt1, pt2):
-    """
+    """se usa para saber los largos de las lineas
     """
     distancia = float(((pt2[0]-pt1[0])**2 - (pt2[1]-pt1[1])**2)**.5) 
     return distancia
 
 def encuentra_linas(frame, angulos):
+    """encuentras las lineas en el frame que
+    se esta trabajando
     """
-    """
+    #la imagen se pone en gris
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    #se hace difusa
     blur = cv2.GaussianBlur(gray,(3,3),10000)
     cv2.imwrite('gray.png', blur)
+    #se binariza
     (thresh, im_bw) = cv2.threshold(blur, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
     blur = cv2.GaussianBlur(im_bw,(3,3),10000)
     for i in range(30):
         blur = cv2.GaussianBlur(blur,(3,3),1)
     cv2.imwrite('blur.png', blur)
+    #se obtienen los contornos
     edges = cv2.Canny(blur, 200, 120)#80 120
     cv2.imwrite('edges.png', edges)
+    #se buscan lineas que cumplan con caracteristicas adecuadas
     lines = cv2.HoughLinesP(edges, 1, math.pi/360, 100, None, 200, 5000)
     punto = lines[0][0][1]
     linea = lines[0][0]
+    #se obtienen los puntos
     for line in lines[0]:
         pt1 = (line[0],line[1])
         pt2 = (line[2],line[3])
@@ -53,6 +60,7 @@ def encuentra_linas(frame, angulos):
     nuevo_color = (r,g,b)
     otro = (0,0,255)
     if dis > 400:
+        #si la linea es mayo a 400 px cumple
         cv2.line(frame, pt1, pt2, otro, 3)
         dx,dy = (linea[2]-linea[0]), (linea[3]-linea[1])
         rads = math.atan2(float(-dy),float(dx))
@@ -60,7 +68,9 @@ def encuentra_linas(frame, angulos):
     return frame, angulos
 
 def procesamiento(cap):
-    """
+    """aqui se procesa todo el video
+    regresa una lista con los angulos y los tiempos
+    medidos
     """
     angulos = []
     tiempo = []
@@ -69,6 +79,7 @@ def procesamiento(cap):
         if flag == 0:
             break
         inicio = time.time()
+        #se manda llamar la funcion para encontrar lineas
         frame, angulos = encuentra_linas(frame, angulos)
         tiempo.append(time.time()-inicio)
         cv2.imshow("Video", frame)
@@ -78,6 +89,8 @@ def procesamiento(cap):
     return angulos, tiempo
 
 def grafica(tiempo):
+    """sirve para graficar el tiempo
+    """
     l2 = plt.plot(tiempo, 'b', label='Tiempo')
     plt.legend(loc='upper left', numpoints = 1)
     plt.ylabel('tiempo')
@@ -87,6 +100,9 @@ def grafica(tiempo):
     
 
 def lee_xls():
+    """lee el archivo proporcionado para comparar 
+    con los resultados de vision
+    """
     wb = xlrd.open_workbook('angles_video2.xls')
     sheet = wb.sheet_names()[0]
     sh = wb.sheet_by_name(sheet)
@@ -115,7 +131,6 @@ def main():
     m = len(mems)
     v = len(vision)
     y = np.linspace(0, 9000, num=v)
-
     l1 = plt.plot(y, vision, 'r--', lw=3, label='VISION')
     l2 = plt.plot( mems, 'b', label='MEMS')
     plt.legend(loc='upper left', numpoints = 1)
@@ -125,4 +140,5 @@ def main():
     plt.show()
     grafica(tiempo)
     print "El tiempo total transcurrido es de %s" %sum(tiempo)
+
 main()
