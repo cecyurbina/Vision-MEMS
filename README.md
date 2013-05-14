@@ -1,8 +1,5 @@
 Vision-MEMS
 ===========
-<<<<<<< HEAD
-
-=======
 Implementación de tecnicas de visión computacional para
 medir el angulo de los brazos de un robot, por 
 Sandra Cecilia Urbina Coronado 
