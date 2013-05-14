@@ -1,0 +1,20 @@
+Es necesario que el usuario tenga instalado las librerias de 
+
+Numpy
+sudo apt-get install numpy
+
+Matplotlib
+sudo apt-get install python-matplotlib
+
+Python
+sudo apt-get install python
+
+Opencv
+sudo apt-get install python-opencv
+
+
+El software simplemente se corre interpretando el script de python que se llama 
+"principal.py" este tiene como ejemplo el video2 que muestra el movimiento de
+los angulos.
+
+"principal.py"
